@@ -33,30 +33,23 @@ const TodoInsert = ({ onInsert }) => {
 
   return (
     <TodoInsertContainer>
-      <form onSubmit={onSubmit}>
-        <TodoInsertInput>
-          <input
-            type='text'
-            name='title'
-            placeholder='제목을 입력하세요'
-            value={todo.title}
-            onChange={onChangeTodoHandler}
-          />
-
-          <input
-            type='text'
-            name='content'
-            placeholder='본문을 입력해주세요'
-            value={todo.content}
-            onChange={onChangeTodoHandler}
-          />
-          <TodoInsertButton>
-            <button>
-              <MdAdd />
-            </button>
-          </TodoInsertButton>
-        </TodoInsertInput>
-      </form>
+      <TodoInsertInput
+        type='text'
+        name='title'
+        placeholder='제목을 입력해주세요'
+        value={todo.title}
+        onChange={onChangeTodoHandler}
+      />
+      <TodoInsertInput
+        type='text'
+        name='content'
+        placeholder='본문을 입력해주세요'
+        value={todo.content}
+        onChange={onChangeTodoHandler}
+      />
+      <TodoInsertButton onClick={onSubmit}>
+        <MdAdd />
+      </TodoInsertButton>
     </TodoInsertContainer>
   );
 };
@@ -68,7 +61,7 @@ const TodoInsertContainer = styled.div`
   background: #495057;
 `;
 
-const TodoInsertInput = styled(TodoInsertContainer)`
+const TodoInsertInput = styled.input`
   background: none;
   outline: none;
   border: none;
@@ -76,17 +69,17 @@ const TodoInsertInput = styled(TodoInsertContainer)`
   font-size: 1.125rem;
   line-height: 1.5;
   color: white;
-  // &::placeholder {
-  //   color: #dee2e6;
-  // }
+  &::placeholder {
+    color: #dee2e6;
+  }
   flex: 1;
 `;
 
-const TodoInsertButton = styled(TodoInsertContainer)`
+const TodoInsertButton = styled.button`
   background: none;
   outline: none;
   border: none;
-  // background: #868e96;
+  background: #868e96;
   color: white;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -95,4 +88,7 @@ const TodoInsertButton = styled(TodoInsertContainer)`
   align-items: center;
   cursor: pointer;
   transition: 0.1s background ease-in;
+  &:hover {
+    background: #adb5bd;
+  }
 `;

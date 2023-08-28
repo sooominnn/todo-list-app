@@ -10,17 +10,20 @@ const App = () => {
     {
       id: 1,
       title: '리액트 공부하기',
-      content: '본문1',
+      content: '1장~5장',
+      checked: true,
     },
     {
       id: 2,
       title: '자바스크립트 공부하기',
-      content: '본문2',
+      content: '3장',
+      checked: true,
     },
     {
       id: 3,
       title: 'html&css 공부하기',
-      content: '본문3',
+      content: '4장~7장',
+      checked: true,
     },
   ]);
 
@@ -29,6 +32,7 @@ const App = () => {
       id: nextId.current,
       title: newTodo.title,
       content: newTodo.content,
+      checked: false,
     };
 
     setTodos(todos.concat(todo));
@@ -46,12 +50,33 @@ const App = () => {
     setTodos(newTodos);
   };
 
+  const onToggle = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, checked: !todo.checked } : todo
+      )
+    );
+  };
+
   return (
-    <TodoTemplate>
-      <TodoInsert onInsert={onInsert} />
-      <TodoList todos={todos} onUpdate={onUpdate} onRemove={onRemove} />
-    </TodoTemplate>
+    <Index>
+      <TodoTemplate>
+        <TodoInsert onInsert={onInsert} />
+        <TodoList
+          todos={todos}
+          onUpdate={onUpdate}
+          onRemove={onRemove}
+          onToggle={onToggle}
+        />
+      </TodoTemplate>
+    </Index>
   );
 };
 
 export default App;
+
+const Index = styled.div`
+  margin: 0;
+  padding: 0;
+  background-color: #e9ecef;
+`;

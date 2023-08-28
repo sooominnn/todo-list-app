@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import { MdRemoveCircleOutline } from 'react-icons/md';
+import {
+  MdCheckBoxOutlineBlank,
+  MdCheckBox,
+  MdRemoveCircleOutline,
+  MdEdit,
+} from 'react-icons/md';
+// import cn from 'classnames';
 import { AiOutlineEdit } from 'react-icons/fa';
 import { styled, css } from 'styled-components';
 
-const TodoListItem = ({ todo, onUpdate, onRemove }) => {
-  const { id, title, content } = todo;
+const TodoListItem = ({ todo, onUpdate, onRemove, onToggle }) => {
+  const { id, title, content, checked } = todo;
   const [editMode, setEditMode] = useState(false);
   const [value, setValue] = useState(todo || { id: '', text: '', content: '' });
+  const [borderColor, setBorderColor] = useState('green');
 
   /**
    *   const onChange = (e) => {
@@ -48,58 +55,52 @@ const TodoListItem = ({ todo, onUpdate, onRemove }) => {
   return (
     <div>
       {editMode ? (
-        <div>
-          <ul>
-            <li key={todo.id}>
-              <input
-                value={value.title}
-                name='title'
-                type='text'
-                onChange={onChange}
-                autoFocus
-              />
-              <input
-                value={value.content}
-                name='content'
-                type='text'
-                onChange={onChange}
-                autoFocus
-              />
-            </li>
-            <button
-              onClick={() => {
-                onUpdate(value);
-                setEditMode(false);
-              }}
-            >
-              수정완료
-            </button>
-          </ul>
-        </div>
+        <ul>
+          <TodoListItemInput
+            value={value.title}
+            name='title'
+            type='text'
+            onChange={onChange}
+            autoFocus
+          />
+          <TodoListItemInput
+            value={value.content}
+            name='content'
+            type='text'
+            onChange={onChange}
+            autoFocus
+          />
+          <button
+            onClick={() => {
+              onUpdate(value);
+              setEditMode(false);
+            }}
+          >
+            완료
+          </button>
+        </ul>
       ) : (
-        <div>
-          <TodoListItemContainer>
-            <input
-              type='text'
-              // name='title'
-              value={title}
-              onChange={onChange}
-            />
-            <input
-              type='text'
-              // name='content'
-              value={content}
-              onChange={onChange}
-            />
-            <button onClick={() => setEditMode(true)}>
-              수정{/* <AiOutlineEdit /> */}
-            </button>
-
-            <div onClick={() => onRemove(id)}>
+        <TodoListItemContainer>
+          <TodoListItemContainerCheckBox onClick={() => onToggle(id)}>
+            {checked ? (
+              <MdCheckBoxStyle>
+                <MdCheckBox />{' '}
+              </MdCheckBoxStyle>
+            ) : (
+              <MdCheckBoxOutlineBlank />
+            )}
+          </TodoListItemContainerCheckBox>
+          <TodoListItemInput type='text' value={title} onChange={onChange} />
+          <TodoListItemInput type='text' value={content} onChange={onChange} />
+          <MdEditStyle onClick={() => setEditMode(true)}>
+            <MdEdit />
+          </MdEditStyle>
+          <TodoListItemRemove>
+            <MdRemoveCircleOutlineStyle onClick={() => onRemove(id)}>
               <MdRemoveCircleOutline />
-            </div>
-          </TodoListItemContainer>
-        </div>
+            </MdRemoveCircleOutlineStyle>
+          </TodoListItemRemove>
+        </TodoListItemContainer>
       )}
     </div>
   );
@@ -108,9 +109,49 @@ const TodoListItem = ({ todo, onUpdate, onRemove }) => {
 export default TodoListItem;
 
 const TodoListItemContainer = styled.div`
+  padding: 1rem;
   display: flex;
   align-items: center;
-  padding: 10px 10px;
 `;
 
-const TodoListItemContent = styled(TodoListItemContainer)``;
+const TodoListItemContainerCheckBox = styled.div`
+  cursor: pointer;
+  flex: 1; // 차지할 수 있는 영역 모두 차지
+  display: flex;
+  align-items: center;
+  svg {
+    // 아이콘
+    font-size: 1.5rem;
+  }
+`;
+
+const TodoListItemRemove = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  color: #ff6b6b;
+  cursor: pointer;
+`;
+
+const TodoListItemInput = styled.input`
+  background: none;
+  outline: none;
+  border: none;
+  margin-right: 3rem;
+  flex: 1;
+  svg {
+    color: #22b8cf;
+  }
+`;
+
+const MdCheckBoxStyle = styled.div`
+  color: #22b8cf;
+`;
+
+const MdEditStyle = styled.div`
+  margin-left: 0.5rem;
+`;
+
+const MdRemoveCircleOutlineStyle = styled.div`
+  margin-left: 0.5rem;
+`;

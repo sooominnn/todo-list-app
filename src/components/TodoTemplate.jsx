@@ -15,6 +15,7 @@ export default TodoTemplate;
 const TodoTemplateContainer = styled.div`
   width: 512px;
   margin-left: auto;
+  margin-right: auto;
   margin-top: 6rem;
   border-radius: 4px;
   overflow: hidden;

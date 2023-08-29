@@ -5,15 +5,12 @@ import {
   MdRemoveCircleOutline,
   MdEdit,
 } from 'react-icons/md';
-// import cn from 'classnames';
-import { AiOutlineEdit } from 'react-icons/fa';
 import { styled, css } from 'styled-components';
 
 const TodoListItem = ({ todo, onUpdate, onRemove, onToggle }) => {
   const { id, title, content, checked } = todo;
   const [editMode, setEditMode] = useState(false);
   const [value, setValue] = useState(todo || { id: '', text: '', content: '' });
-  const [borderColor, setBorderColor] = useState('green');
 
   /**
    *   const onChange = (e) => {
@@ -82,13 +79,9 @@ const TodoListItem = ({ todo, onUpdate, onRemove, onToggle }) => {
       ) : (
         <TodoListItemContainer>
           <TodoListItemContainerCheckBox onClick={() => onToggle(id)}>
-            {checked ? (
-              <MdCheckBoxStyle>
-                <MdCheckBox />{' '}
-              </MdCheckBoxStyle>
-            ) : (
-              <MdCheckBoxOutlineBlank />
-            )}
+            <MdCheckBoxStyle checked={checked}>
+              {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
+            </MdCheckBoxStyle>
           </TodoListItemContainerCheckBox>
           <TodoListItemInput type='text' value={title} onChange={onChange} />
           <TodoListItemInput type='text' value={content} onChange={onChange} />
@@ -139,13 +132,16 @@ const TodoListItemInput = styled.input`
   border: none;
   margin-right: 3rem;
   flex: 1;
-  svg {
-    color: #22b8cf;
-  }
 `;
 
 const MdCheckBoxStyle = styled.div`
-  color: #22b8cf;
+  svg {
+    color: ${(props) => (props.checked ? '#22b8cf' : '#adb5bd')};
+  }
+  // & checked {
+  //   color: #adb5bd;
+  //   text-decoration: line-through;
+  // }
 `;
 
 const MdEditStyle = styled.div`

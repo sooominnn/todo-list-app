@@ -69,9 +69,6 @@ const TodoInsertInput = styled.input`
   font-size: 1.125rem;
   line-height: 1.5;
   color: white;
-  &::placeholder {
-    color: #dee2e6;
-  }
   flex: 1;
 `;
 
